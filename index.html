@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Elias Rist | rist.software</title>
+  <link rel="icon" type="image/png" href="assets/img/logo-mark-dark.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/stage.css">
+  <link rel="stylesheet" href="css/chrome.css">
+  <link rel="stylesheet" href="css/overlays.css">
+  <link rel="stylesheet" href="css/motion.css">
+</head>
+<body>
+  <div id="stage">
+    <canvas id="bg" aria-hidden="true"></canvas>
+    <div id="world"></div>
+  </div>
+  <canvas id="fx" aria-hidden="true"></canvas>
+  <div class="label" id="plabel" aria-hidden="true"><b></b><small></small></div>
+  <div class="label" id="alabel" aria-hidden="true"><b data-i18n="ast"></b></div>
+  <div id="card" hidden aria-live="polite"><p class="card-t"></p><p class="card-b"></p></div>
+  <header class="top">
+    <a class="home" href="#start" data-go="start" data-i18n-aria="home"><img src="assets/img/logo-mark-dark.png" alt=""></a>
+    <div class="lang" role="group" data-i18n-aria="lang">
+      <button type="button" data-lang="de" aria-pressed="false">DE</button>
+      <button type="button" data-lang="en" aria-pressed="false">EN</button>
+    </div>
+  </header>
+  <nav class="hud" data-i18n-aria="hud"></nav>
+  <div class="scrim l" id="scrimL" aria-hidden="true"></div>
+  <div class="scrim r" id="scrimR" aria-hidden="true"></div>
+  <div class="scrim b" id="scrimB" aria-hidden="true"></div>
+  <main id="track">
+    <section class="ch" id="start">
+      <div class="ov hero" id="ov-hero">
+        <h1><img src="assets/img/wordmark-light.png" alt="Elias Rist"></h1>
+        <p class="tag" data-i18n="hero.tag"></p>
+        <p class="hint"><span data-i18n="hero.hint"></span><i aria-hidden="true"></i></p>
+      </div>
+    </section>
+    <section class="ch" id="galaxie">
+      <div class="ov prolog" id="ov-prolog">
+        <h2 data-i18n="prolog.title"></h2>
+        <p data-i18n="prolog.body"></p>
+        <div class="row">
+          <a class="textlink act" data-project-link data-i18n="prolog.cta"></a>
+          <p class="hintline" data-i18n="prolog.hint"></p>
+        </div>
+      </div>
+    </section>
+    <div id="panels"></div>
+    <section class="ch" id="outro">
+      <div class="ov outro" id="ov-outro">
+        <h2></h2><p></p>
+        <!-- TODO: Replace the empty mailto: with Elias's real contact address. -->
+        <a class="cta act" data-contact-link></a>
+      </div>
+    </section>
+  </main>
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

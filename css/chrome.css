@@ -1,0 +1,18 @@
+
+.top{position:fixed;left:0;right:0;top:0;z-index:50;display:flex;justify-content:space-between;align-items:center;
+  padding:calc(18px + env(safe-area-inset-top,0px)) clamp(18px,3vw,36px) 0;pointer-events:none}
+.top>*{pointer-events:auto}
+.home{display:block;width:30px;height:30px}
+.home img{width:100%;height:100%;object-fit:contain;display:block}
+.lang{display:flex;gap:2px;background:rgba(29,30,37,.7);border:1px solid var(--faint);border-radius:999px;padding:3px}
+.lang button{border:0;background:transparent;font-family:var(--mono);font-size:12px;padding:5px 11px;border-radius:999px;color:var(--muted);min-height:30px}
+.lang button[aria-pressed="true"]{background:var(--text);color:var(--ground)}
+.hud{position:fixed;right:clamp(14px,2.2vw,30px);top:50%;transform:translateY(-50%);z-index:50;display:flex;flex-direction:column;gap:4px}
+.hud button{display:flex;align-items:center;justify-content:flex-end;gap:12px;border:0;background:transparent;padding:6px 4px;min-height:32px}
+.hud .t{font-size:13px;color:var(--muted);opacity:0;transform:translateX(6px);transition:.25s;white-space:nowrap}
+.hud button:hover .t,.hud button:focus-visible .t,.hud:hover .t{opacity:1;transform:none}
+.hud .d{width:9px;height:9px;border-radius:50%;border:1.5px solid rgba(236,233,226,.5);transition:.3s;flex:none;position:relative}
+.hud button[aria-current="step"] .d{transform:scale(1.5);border-color:var(--text);background:var(--text)}
+.hud button.explored .d{border-color:var(--accent,var(--star));background:var(--accent,var(--star))}
+.hud button[aria-current="step"] .t{color:var(--text);opacity:1;transform:none}
+
