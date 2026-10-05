@@ -59,5 +59,10 @@ export default {
   "f.status": "Status",
   "f.statusv": "Live",
   "f.mapsv": "Google Maps, Apple Maps",
+  "imp.link": "Impressum",
+  "imp.title": "Impressum",
+  "imp.body": "Angaben gemäß § 5 ECG. Inhaltlich verantwortlich: Elias Rist.",
+  "imp.todo": "Adresse und E-Mail folgen",
+  "imp.close": "Schließen",
   "f.widgets": "Widgets"
 };

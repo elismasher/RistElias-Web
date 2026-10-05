@@ -59,5 +59,10 @@ export default {
   "f.status": "Status",
   "f.statusv": "Live",
   "f.mapsv": "Google Maps, Apple Maps",
+  "imp.link": "Imprint",
+  "imp.title": "Imprint",
+  "imp.body": "Information pursuant to § 5 ECG. Responsible for content: Elias Rist.",
+  "imp.todo": "Address and email to follow",
+  "imp.close": "Close",
   "f.widgets": "Widgets"
 };

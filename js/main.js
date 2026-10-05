@@ -153,3 +153,8 @@ if (state.timeline.anchors[initial] != null) {
 state.scroll.progress = state.scroll.target;
 frame(performance.now(), 0);
 startLoop();
+
+const imprint = document.getElementById('imprint');
+document.getElementById('imprintOpen').addEventListener('click', () => imprint.showModal());
+document.getElementById('imprintClose').addEventListener('click', () => imprint.close());
+imprint.addEventListener('click', (e) => { if (e.target === imprint) imprint.close(); });

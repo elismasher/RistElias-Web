@@ -16,3 +16,11 @@
 .hud button.explored .d{border-color:var(--accent,var(--star));background:var(--accent,var(--star))}
 .hud button[aria-current="step"] .t{color:var(--text);opacity:1;transform:none}
 
+
+.imprint-link{position:fixed;left:clamp(14px,2.2vw,30px);bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:50;border:0;background:transparent;color:var(--muted);font-family:var(--mono);font-size:12px;padding:6px 4px;min-height:32px}
+.imprint-link:hover,.imprint-link:focus-visible{color:var(--text)}
+.imprint{background:var(--ground-2);color:var(--text);border:1px solid var(--faint);border-radius:12px;box-shadow:var(--shadow-card);padding:var(--space-md);max-width:min(420px,calc(100vw - 32px));font-size:15px;line-height:1.5}
+.imprint::backdrop{background:rgba(0,0,0,.6)}
+.imprint h2{margin:0 0 var(--space-sm);font-size:20px}
+.imprint p{margin:0 0 var(--space-sm);color:var(--muted)}
+.imprint-close{border:1px solid var(--faint);background:transparent;color:var(--text);border-radius:999px;padding:6px 16px;min-height:34px}
