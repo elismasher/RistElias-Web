@@ -1,7 +1,7 @@
 // The travel order, visual parameters and content keys live here. No station data in renderers.
 export const BODIES = [
   {
-    id: 'spotjar', type: 'planet', layout: 'side', image: 'assets/img/planet-spotjar.webp',
+    id: 'spotjar', type: 'planet', layout: 'side', image: 'assets/img/planets/planet-spotJar.png',
     url: 'https://www.spotjar.app', domain: 'spotjar.app', accent: '#5CC8F0',
     orbit: { a: 300, period: 46, startAngle: 2.3 }, size: 130, focusScale: 1,
     motion: { mode: 'wobble', amplitude: 4, period: 9 },
@@ -11,7 +11,7 @@ export const BODIES = [
     facts: ['works', 'langs', 'status'],
   },
   {
-    id: 'phaseparadise', type: 'planet', layout: 'side', image: 'assets/img/planet-phaseparadise.webp',
+    id: 'phaseparadise', type: 'planet', layout: 'side', image: 'assets/img/planets/planet-phaseparadise.png',
     url: 'https://www.phaseparadise.app', domain: 'phaseparadise.app', accent: '#FF8C3A',
     orbit: { a: 470, period: 80, startAngle: -0.5 }, size: 205, focusScale: 1.18,
     motion: { mode: 'wobble', amplitude: 3, period: 11 },
@@ -22,7 +22,7 @@ export const BODIES = [
     facts: ['for', 'widgets', 'status'],
   },
   {
-    id: 'unerforscht', type: 'asteroid', layout: 'center', image: 'assets/img/asteroid.webp',
+    id: 'unerforscht', type: 'asteroid', layout: 'center', image: 'assets/img/planets/asteroid.png',
     accent: '#FFD7A3', size: 102, focusScale: 1,
     orbit: { a: 600, period: 120, startAngle: 1.15, dashed: true },
     motion: { mode: 'spin', speed: 0.07 },
@@ -39,7 +39,7 @@ export const FACTS = {
   for: { label: 'f.for', value: 'f.forv' },
   widgets: { label: 'f.widgets', value: 'f.widgetsv' },
 };
-export const ASSETS = { sun: 'assets/img/logo-mark-light.png', belt: 'assets/img/asteroid-small.webp' };
+export const ASSETS = { sun: 'assets/img/logo-mark-light.png', belt: 'assets/img/planets/asteroid.png' };
 // TODO: Real screenshots and app icons; current placeholders deliberately preserved.
 export const CONTENT = { screenshotCount: 3, contact: 'mailto:' }; // TODO: Real email address.
 export const MOTION_DEFAULTS = {

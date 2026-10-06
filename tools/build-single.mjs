@@ -44,7 +44,7 @@ const inlineImage = async resource => {
   return `data:image/${extension === 'jpg' ? 'jpeg' : extension};base64,${(await readFile(path.join(root, resource))).toString('base64')}`;
 };
 // Include images referenced by generated data as well as by the static markup.
-const imagePaths = new Set([...`${html}\n${script}`.matchAll(/assets\/img\/[A-Za-z0-9_.-]+\.(?:webp|png|jpe?g)/g)].map(match => match[0]));
+const imagePaths = new Set([...`${html}\n${script}`.matchAll(/assets\/img\/(?:[A-Za-z0-9_.-]+\/)*[A-Za-z0-9_.-]+\.(?:webp|png|jpe?g)/g)].map(match => match[0]));
 for (const resource of imagePaths) {
   const data = await inlineImage(resource);
   html = html.replaceAll(resource, data); script = script.replaceAll(resource, data);
