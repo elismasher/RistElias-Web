@@ -38,10 +38,17 @@ body.rm .scrim{display:none}
 .panel .desc{margin:0 0 14px;color:var(--muted);max-width:52ch}
 .panel .explore{margin:0 0 22px;color:var(--text);display:flex;align-items:center;gap:10px}
 .panel .explore::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 10px var(--accent);flex:none}
-.shots{display:flex;gap:var(--space-sm);margin:0 0 var(--space-md)}
-.shot{display:block;flex:0 1 132px;min-width:0;border-radius:12px}
+.shots{display:flex;align-items:flex-start;gap:var(--space-sm);margin:0 0 var(--space-md);padding:6px}
+.shot{display:block;flex:0 1 132px;min-width:0;border:0;padding:0;background:transparent;border-radius:12px;cursor:zoom-in}
 .shot img{display:block;width:100%;height:auto;border-radius:12px}
-.shot:hover{outline:1px solid var(--accent);outline-offset:3px}
+.shot:hover,.shot:focus-visible{outline:2px solid var(--accent);outline-offset:4px;border-radius:12px}
+body.screenshot-open{overflow:hidden}
+.screenshot-viewer{position:fixed;inset:0;box-sizing:border-box;width:100%;max-width:none;height:100%;height:100dvh;max-height:none;margin:0;border:0;padding:72px 24px 24px;background:transparent;color:var(--text);overflow:hidden;cursor:zoom-out}
+.screenshot-viewer[open]{display:flex;align-items:center;justify-content:center}
+.screenshot-viewer::backdrop{background:rgba(10,11,15,.92)}
+.screenshot-full{display:block;max-width:min(1100px,100%);max-height:100%;width:auto;height:auto;object-fit:contain;border-radius:12px;box-shadow:0 16px 60px rgba(0,0,0,.4);cursor:default}
+.screenshot-close{position:absolute;top:calc(16px + env(safe-area-inset-top,0px));right:calc(16px + env(safe-area-inset-right,0px));display:flex;align-items:center;justify-content:center;width:44px;height:44px;border:1px solid var(--faint);border-radius:50%;background:var(--ground-2);color:var(--text);font-size:32px;line-height:1;cursor:pointer}
+.screenshot-close:hover{background:var(--ground);border-color:var(--text)}
 .facts{display:grid;grid-template-columns:auto 1fr;gap:6px 22px;margin:0 0 22px;font-size:15px}
 .facts dt{font-family:var(--mono);font-size:12.5px;color:var(--muted);padding-top:2px}
 .facts dd{margin:0}

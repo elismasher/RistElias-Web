@@ -12,6 +12,7 @@ import { createHotspots, fillCard, closeCard, showCard, updateHotspots } from '.
 import { createHud, updateHud } from './ui/hud.js';
 import { fillPlanetLabel, updateLabels } from './ui/labels.js';
 import { renderComet } from './ui/comet.js';
+import { initScreenshotViewer } from './ui/screenshots.js';
 
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 const finePointer = matchMedia('(pointer: fine)');
@@ -97,6 +98,7 @@ document.addEventListener('pointerleave', () => { state.mouse.inside = false; })
 addEventListener('scroll', () => readScroll(state), { passive: true });
 addEventListener('keydown', event => {
   if (event.key !== 'Escape') return;
+  if (document.querySelector('dialog[open]')) return;
   if (state.openHotspot) { const button = state.openHotspot; closeCard(state); button.focus(); }
   else if (state.station !== 'start' && state.station !== 'galaxie') go('galaxie');
 });
@@ -154,6 +156,7 @@ state.scroll.progress = state.scroll.target;
 frame(performance.now(), 0);
 startLoop();
 
+initScreenshotViewer();
 const imprint = document.getElementById('imprint');
 document.getElementById('imprintOpen').addEventListener('click', () => imprint.showModal());
 document.getElementById('imprintClose').addEventListener('click', () => imprint.close());

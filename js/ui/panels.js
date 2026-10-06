@@ -16,13 +16,16 @@ function screenshots(body) {
   const update = () => {
     const sources = body.screenshots?.[getLanguage()] ?? body.screenshots?.de ?? [];
     shots.replaceChildren(...sources.map((source, index) => {
-      const link = node('a', 'shot act');
-      link.href = source; link.target = '_blank'; link.rel = 'noopener';
+      const button = node('button', 'shot act');
+      button.type = 'button';
       const preview = image(source);
       preview.alt = `${t(body.copy.name)} – ${t('shot')} ${index + 1}`;
       preview.decoding = 'async';
-      link.append(preview);
-      return link;
+      button.setAttribute('aria-label', `${t('shot.open')}: ${preview.alt}`);
+      button.setAttribute('aria-haspopup', 'dialog');
+      button.setAttribute('aria-controls', 'screenshotViewer');
+      button.append(preview);
+      return button;
     }));
   };
   update(); onLanguageChange(update);
