@@ -2,6 +2,11 @@
 export const BODIES = [
   {
     id: 'spotjar', type: 'planet', layout: 'side', image: 'assets/img/planets/planet-spotJar.png',
+    icon: 'assets/img/mocks/spotjar/icon.png',
+    screenshots: {
+      de: ['assets/img/mocks/spotjar/de/1.png', 'assets/img/mocks/spotjar/de/3.png', 'assets/img/mocks/spotjar/de/4.png'],
+      en: ['assets/img/mocks/spotjar/en/1.png', 'assets/img/mocks/spotjar/en/3.png', 'assets/img/mocks/spotjar/en/4.png'],
+    },
     url: 'https://www.spotjar.app', domain: 'spotjar.app', accent: '#5CC8F0',
     orbit: { a: 300, period: 46, startAngle: 2.3 }, size: 130, focusScale: 1,
     motion: { mode: 'wobble', amplitude: 4, period: 9 },
@@ -12,6 +17,11 @@ export const BODIES = [
   },
   {
     id: 'phaseparadise', type: 'planet', layout: 'side', image: 'assets/img/planets/planet-phaseparadise.png',
+    icon: 'assets/img/mocks/phaseparadise/icon.png',
+    screenshots: {
+      de: ['assets/img/mocks/phaseparadise/de/2.png', 'assets/img/mocks/phaseparadise/de/3.png', 'assets/img/mocks/phaseparadise/de/4.png'],
+      en: ['assets/img/mocks/phaseparadise/en/2.png', 'assets/img/mocks/phaseparadise/en/3.png', 'assets/img/mocks/phaseparadise/en/4.png'],
+    },
     url: 'https://www.phaseparadise.app', domain: 'phaseparadise.app', accent: '#FF8C3A',
     orbit: { a: 470, period: 80, startAngle: -0.5 }, size: 205, focusScale: 1.18,
     motion: { mode: 'wobble', amplitude: 3, period: 11 },
@@ -40,8 +50,7 @@ export const FACTS = {
   widgets: { label: 'f.widgets', value: 'f.widgetsv' },
 };
 export const ASSETS = { sun: 'assets/img/logo-mark-light.png', belt: 'assets/img/planets/asteroid.png' };
-// TODO: Real screenshots and app icons; current placeholders deliberately preserved.
-export const CONTENT = { screenshotCount: 3, contact: 'mailto:' }; // TODO: Real email address.
+export const CONTENT = { contact: 'mailto:' }; // TODO: Real email address.
 export const MOTION_DEFAULTS = {
   planet: { mode: 'wobble', amplitude: 4, period: 9 },
   asteroid: { mode: 'spin', speed: 0.07 },

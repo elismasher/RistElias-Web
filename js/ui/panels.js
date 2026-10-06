@@ -1,4 +1,5 @@
 import { CONTENT, FACTS, UI } from '../config.js';
+import { getLanguage, onLanguageChange, t } from '../i18n.js';
 
 function node(tag, className, key) {
   const el = document.createElement(tag);
@@ -6,9 +7,26 @@ function node(tag, className, key) {
   if (key) el.dataset.i18n = key;
   return el;
 }
-function image(body, className) {
-  const el = node('img', className); el.src = body.image; el.alt = '';
+function image(source, className) {
+  const el = node('img', className); el.src = source; el.alt = '';
   return el;
+}
+function screenshots(body) {
+  const shots = node('div', 'shots');
+  const update = () => {
+    const sources = body.screenshots?.[getLanguage()] ?? body.screenshots?.de ?? [];
+    shots.replaceChildren(...sources.map((source, index) => {
+      const link = node('a', 'shot act');
+      link.href = source; link.target = '_blank'; link.rel = 'noopener';
+      const preview = image(source);
+      preview.alt = `${t(body.copy.name)} – ${t('shot')} ${index + 1}`;
+      preview.decoding = 'async';
+      link.append(preview);
+      return link;
+    }));
+  };
+  update(); onLanguageChange(update);
+  return shots;
 }
 function features(body) {
   const box = node('div', 'features');
@@ -38,7 +56,7 @@ export function createPanels(state) {
     const center = body.layout === 'center';
     const panel = isOutro ? section.querySelector('.outro') : node('div', `ov ${center ? 'outro' : 'panel'}`);
     panel.id = `ov-${body.id}`; panel.style.setProperty('--accent', body.accent);
-    panel.prepend(image(body, 'rm-planet'));
+    panel.prepend(image(body.image, 'rm-planet'));
     if (center) {
       const title = isOutro ? panel.querySelector('h2') : node('h2');
       const desc = isOutro ? panel.querySelector('p') : node('p');
@@ -50,15 +68,10 @@ export function createPanels(state) {
     } else {
       const kicker = node('div', 'kicker'), domain = node('span', 'mono');
       domain.textContent = body.domain;
-      // TODO: Replace the planet image used as the icon with the real app icon.
-      kicker.append(image(body, 'icon'), domain);
+      kicker.append(image(body.icon, 'icon'), domain);
       panel.append(kicker, node('h2', 'title', body.copy.name), node('p', 'tag', body.copy.tag),
         node('p', 'desc', body.copy.body), node('p', 'explore mono', 'explore'), features(body));
-      const shots = node('div', 'shots');
-      // TODO: Replace the dashed frames with real app screenshots.
-      for (let i = 0; i < CONTENT.screenshotCount; i++) {
-        const shot = node('div', 'shot'); shot.append(node('span', '', 'shot')); shots.append(shot);
-      }
+      const shots = screenshots(body);
       const facts = node('dl', 'facts');
       for (const key of body.facts ?? []) {
         const fact = typeof key === 'string' ? FACTS[key] : key;
