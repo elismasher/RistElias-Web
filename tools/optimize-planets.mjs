@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
-for (const name of ['planet-spotJar', 'planet-phaseparadise', 'asteroid']) {
+for (const name of ['planet-spotJar', 'planet-phaseparadise', 'asteroid', 'asteroid_underConstruction']) {
   const source = path.join(root, 'assets/img/planets', `${name}.png`);
   const outputs = [
     { suffix: '-preview', quality: 45, resize: ['-resize', '320', '320'] },

@@ -34,8 +34,8 @@ export const BODIES = [
     facts: ['for', 'widgets', 'status'],
   },
   {
-    id: 'unerforscht', type: 'asteroid', layout: 'center', image: 'assets/img/planets/asteroid.webp',
-    preview: 'assets/img/planets/asteroid-preview.webp',
+    id: 'unerforscht', type: 'asteroid', layout: 'center', image: 'assets/img/planets/asteroid_underConstruction.webp',
+    preview: 'assets/img/planets/asteroid_underConstruction-preview.webp',
     accent: '#FFD7A3', size: 102, focusScale: 1,
     orbit: { a: 600, period: 120, startAngle: 1.15, dashed: true },
     motion: { mode: 'spin', speed: 0.07 },
