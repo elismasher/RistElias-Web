@@ -39,5 +39,11 @@
 
 .body-inner{position:absolute;inset:0;transform-origin:center;will-change:transform}
 .body-inner>img{object-fit:contain}
+.body-inner>.planet-art{position:absolute;inset:0;width:100%;height:100%}
+.progressive-image{position:relative;aspect-ratio:1}
+.progressive-image>img{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:contain;user-select:none;-webkit-user-drag:none;pointer-events:none;transition:opacity .45s ease}
+.progressive-image>.planet-image-full{opacity:0}
+.progressive-image.is-sharp>.planet-image-full{opacity:1}
+.progressive-image.is-sharp>.planet-image-preview{opacity:0}
 .planet:not(.landed) .hs{visibility:hidden}
 .planet.landed .hs{visibility:visible}

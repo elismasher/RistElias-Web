@@ -1,7 +1,8 @@
 // The travel order, visual parameters and content keys live here. No station data in renderers.
 export const BODIES = [
   {
-    id: 'spotjar', type: 'planet', layout: 'side', image: 'assets/img/planets/planet-spotJar.png',
+    id: 'spotjar', type: 'planet', layout: 'side', image: 'assets/img/planets/planet-spotJar.webp',
+    preview: 'assets/img/planets/planet-spotJar-preview.webp',
     icon: 'assets/img/mocks/spotjar/icon.png',
     screenshots: {
       de: ['assets/img/mocks/spotjar/de/1.png', 'assets/img/mocks/spotjar/de/3.png', 'assets/img/mocks/spotjar/de/4.png'],
@@ -16,7 +17,8 @@ export const BODIES = [
     facts: ['works', 'langs', 'status'],
   },
   {
-    id: 'phaseparadise', type: 'planet', layout: 'side', image: 'assets/img/planets/planet-phaseparadise.png',
+    id: 'phaseparadise', type: 'planet', layout: 'side', image: 'assets/img/planets/planet-phaseparadise.webp',
+    preview: 'assets/img/planets/planet-phaseparadise-preview.webp',
     icon: 'assets/img/mocks/phaseparadise/icon.png',
     screenshots: {
       de: ['assets/img/mocks/phaseparadise/de/2.png', 'assets/img/mocks/phaseparadise/de/3.png', 'assets/img/mocks/phaseparadise/de/4.png'],
@@ -32,7 +34,8 @@ export const BODIES = [
     facts: ['for', 'widgets', 'status'],
   },
   {
-    id: 'unerforscht', type: 'asteroid', layout: 'center', image: 'assets/img/planets/asteroid.png',
+    id: 'unerforscht', type: 'asteroid', layout: 'center', image: 'assets/img/planets/asteroid.webp',
+    preview: 'assets/img/planets/asteroid-preview.webp',
     accent: '#FFD7A3', size: 102, focusScale: 1,
     orbit: { a: 600, period: 120, startAngle: 1.15, dashed: true },
     motion: { mode: 'spin', speed: 0.07 },
@@ -49,7 +52,7 @@ export const FACTS = {
   for: { label: 'f.for', value: 'f.forv' },
   widgets: { label: 'f.widgets', value: 'f.widgetsv' },
 };
-export const ASSETS = { sun: 'assets/img/logo-mark-light.png', belt: 'assets/img/planets/asteroid.png' };
+export const ASSETS = { sun: 'assets/img/logo-mark-light.png', belt: 'assets/img/planets/asteroid-preview.webp' };
 export const CONTENT = { contact: 'mailto:' }; // TODO: Real email address.
 export const MOTION_DEFAULTS = {
   planet: { mode: 'wobble', amplitude: 4, period: 9 },

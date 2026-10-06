@@ -1,5 +1,6 @@
 import { ASSETS, RENDER } from '../config.js';
 import { projectX, projectY } from '../camera.js';
+import { createPlanetImage } from '../ui/planet-images.js';
 
 export function createBodies(state, createHotspots) {
   const container = document.getElementById('world');
@@ -14,7 +15,7 @@ export function createBodies(state, createHotspots) {
     el.style.setProperty('--accent', body.accent);
     const aura = document.createElement('div'); aura.className = 'aura';
     const inner = document.createElement('div'); inner.className = 'body-inner';
-    const image = document.createElement('img'); image.src = body.image; image.alt = '';
+    const image = createPlanetImage(body, 'planet-art');
     const hit = document.createElement('button'); hit.type = 'button'; hit.className = 'hit';
     hit.dataset.go = body.id; hit.dataset.i18nAria = body.copy.hit;
     inner.append(image, hit); createHotspots(body, inner);

@@ -13,6 +13,7 @@ import { createHud, updateHud } from './ui/hud.js';
 import { fillPlanetLabel, updateLabels } from './ui/labels.js';
 import { renderComet } from './ui/comet.js';
 import { initScreenshotViewer } from './ui/screenshots.js';
+import { startPlanetImageUpgrades } from './ui/planet-images.js';
 
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 const finePointer = matchMedia('(pointer: fine)');
@@ -156,6 +157,7 @@ state.scroll.progress = state.scroll.target;
 frame(performance.now(), 0);
 startLoop();
 
+startPlanetImageUpgrades();
 initScreenshotViewer();
 const imprint = document.getElementById('imprint');
 document.getElementById('imprintOpen').addEventListener('click', () => imprint.showModal());

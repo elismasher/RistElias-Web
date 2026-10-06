@@ -1,5 +1,6 @@
 import { CONTENT, FACTS, UI } from '../config.js';
 import { getLanguage, onLanguageChange, t } from '../i18n.js';
+import { createPlanetImage } from './planet-images.js';
 
 function node(tag, className, key) {
   const el = document.createElement(tag);
@@ -59,7 +60,7 @@ export function createPanels(state) {
     const center = body.layout === 'center';
     const panel = isOutro ? section.querySelector('.outro') : node('div', `ov ${center ? 'outro' : 'panel'}`);
     panel.id = `ov-${body.id}`; panel.style.setProperty('--accent', body.accent);
-    panel.prepend(image(body.image, 'rm-planet'));
+    panel.prepend(createPlanetImage(body, 'rm-planet'));
     if (center) {
       const title = isOutro ? panel.querySelector('h2') : node('h2');
       const desc = isOutro ? panel.querySelector('p') : node('p');
