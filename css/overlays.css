@@ -55,7 +55,7 @@ body.screenshot-open{overflow:hidden}
 .actions{display:flex;flex-wrap:wrap;align-items:center;gap:8px 26px}
 .back{border:0;background:transparent;color:var(--muted);min-height:44px;padding:0;font-size:15px;text-decoration:underline;text-underline-offset:4px;text-decoration-color:var(--faint)}
 .back:hover{color:var(--text)}
-.features,.rm-planet{display:none}
+.features,.rm-planet,.project-nav{display:none}
 
 .outro{left:50%;bottom:calc(7vh + env(safe-area-inset-bottom,0px));transform:translateX(-50%);width:min(680px,88vw);text-align:center}
 .outro h2{margin:0 0 12px;text-shadow:0 2px 30px rgba(20,21,26,.85),0 0 2px rgba(20,21,26,.6);font-size:clamp(34px,5vw,74px);line-height:1;font-weight:700;font-stretch:125%;letter-spacing:-.02em}

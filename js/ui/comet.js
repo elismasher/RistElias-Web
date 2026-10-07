@@ -5,7 +5,7 @@ export function renderComet(dt, state) {
   const ctx = state.canvas.effectsContext;
   ctx.clearRect(0, 0, state.viewport.width, state.viewport.height);
   const mouse = state.mouse, comet = state.comet;
-  if (state.reducedMotion || !state.finePointer || !mouse.inside) { comet.trail.length = 0; return; }
+  if (state.documentFlow || !state.finePointer || !mouse.inside) { comet.trail.length = 0; return; }
   comet.trail.push({ x: mouse.x, y: mouse.y, time: state.time });
   while (comet.trail.length && state.time - comet.trail[0].time > COMET.duration) comet.trail.shift();
   const head = mouse.interactive || state.hoverAsteroid ? COMET.interactiveHead : COMET.head;

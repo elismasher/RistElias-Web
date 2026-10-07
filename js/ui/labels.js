@@ -18,13 +18,13 @@ export function updateLabels(state) {
   const planetLabel = document.getElementById('plabel');
   const asteroidLabel = document.getElementById('alabel');
   const body = state.hoverPlanet;
-  if (body && state.world.amount < RENDER.hoverFocus && !state.reducedMotion) {
+  if (body && state.world.amount < RENDER.hoverFocus && !state.documentFlow) {
     fillPlanetLabel(state);
     planetLabel.style.transform = `translate(${projectX(body.wx, state)}px,${projectY(body.wy, state) - body.size * body.depth * state.camera.z * UI.labelSize - UI.labelGap}px) translate(-50%,-100%)`;
     planetLabel.classList.add('on');
   } else planetLabel.classList.remove('on');
   const asteroid = state.hoverAsteroid;
-  if (asteroid && !state.reducedMotion) {
+  if (asteroid && !state.documentFlow) {
     asteroidLabel.style.transform = `translate(${asteroid.x}px,${asteroid.y - asteroid.size * UI.asteroidLabelSize - UI.asteroidLabelGap}px) translate(-50%,-100%)`;
     asteroidLabel.classList.add('on');
   } else asteroidLabel.classList.remove('on');

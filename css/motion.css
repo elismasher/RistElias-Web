@@ -1,29 +1,64 @@
 /* mobile */
 @media (max-width:759px){
   .hud{display:none}
-  .prolog{left:20px;right:20px;width:auto;top:auto;bottom:calc(30px + env(safe-area-inset-bottom,0px));transform:none}
-  .panel{left:0;right:0;top:auto;bottom:0;transform:none;max-height:54vh;padding:28px 20px calc(24px + env(safe-area-inset-bottom,0px));
-    background:linear-gradient(180deg,rgba(20,21,26,0) 0,rgba(20,21,26,.92) 40px,var(--ground) 120px)}
-  .panel .title{font-size:44px}
-  .scrim.l{background:linear-gradient(0deg,rgba(20,21,26,.92) 0,rgba(20,21,26,.6) 38%,rgba(20,21,26,0) 60%)}
-  .scrim.r{display:none}
 }
 
-/* reduced motion: a calm, readable page */
+/* One document scroll for phones and reduced motion. */
 body.rm #stage{opacity:.32}
-body.rm #fx,body.rm .label{display:none}
-body.rm .ch{display:block;min-height:auto;padding:110px clamp(20px,7vw,110px) 60px;position:relative}
-body.rm .ov{position:relative;inset:auto;left:auto;right:auto;top:auto;bottom:auto;transform:none;width:auto;max-width:720px;max-height:none;overflow:visible;opacity:1;visibility:visible;margin:0 auto;background:none}
-body.rm .hero{min-height:80vh;padding-top:12vh}
-body.rm .hero .hint{position:static;transform:none;margin-top:40px}
-body.rm .hero .hint i{animation:none}
-body.rm .outro{text-align:center}
-body.rm .outro .rm-planet{margin:0 auto 24px}
-body.rm .rm-planet{display:block;width:min(360px,80vw);height:auto;margin:0 0 24px}
-body.rm .explore,body.rm .hud,body.rm .prolog .hintline{display:none}
-body.rm .features{display:block;margin:0 0 24px;padding:0;list-style:none}
-body.rm .features h3{margin:0 0 10px;font-size:15px;font-family:var(--mono);color:var(--muted);font-weight:400}
-body.rm .features li{margin:0 0 12px}
-body.rm .features b{display:block}
-body.rm .features span{color:var(--muted)}
+body.flow #fx,body.flow .label,body.flow .scrim{display:none}
+body.flow .ch{display:block;min-height:auto;padding:110px clamp(20px,7vw,110px) 60px;position:relative}
+body.flow .ov{position:relative;inset:auto;transform:none;width:auto;max-width:720px;max-height:none;overflow:visible;opacity:1;visibility:visible;margin:0 auto;background:none}
+body.flow .hero{min-height:80vh;padding-top:12vh}
+body.flow .hero .hint{position:static;transform:none;margin-top:40px}
+body.flow .hero .hint i{animation:none}
+body.flow .outro{text-align:center}
+body.flow .outro .rm-planet{margin:0 auto 24px}
+body.flow .rm-planet{display:block;width:min(360px,80vw);height:auto;margin:0 0 24px}
+body.flow .explore,body.flow .hud,body.flow .prolog .hintline{display:none}
+body.flow .features{display:block;margin:0 0 24px;padding:0}
+body.flow .features h3{margin:0 0 10px;font-size:13px;font-family:var(--mono);color:var(--muted);font-weight:400}
+body.flow .features ul{margin:0;padding:0;list-style:none}
+body.flow .features li{border-bottom:1px solid var(--faint)}
+body.flow .features summary{padding:16px 0;cursor:pointer;font-weight:560}
+body.flow .features summary::marker{color:var(--accent)}
+body.flow .features p{margin:0 0 18px;color:var(--muted);font-size:15px;line-height:1.65}
+body.flow .project-nav{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px}
+body.flow .project-nav a{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:8px 14px;border:1px solid var(--faint);border-radius:999px;text-decoration:none;font-size:14px;background:var(--ground-2)}
+body.flow .project-nav a::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--accent)}
+body.flow .project-nav a:hover{border-color:var(--accent)}
+
+@media (max-width:759px){
+  body.mobile #stage{opacity:.48;pointer-events:none}
+  body.mobile #world{display:none}
+  body.mobile .top{position:absolute;padding-top:calc(20px + env(safe-area-inset-top,0px))}
+  body.mobile .lang button{min-height:36px;padding:6px 13px}
+  body.mobile .ch{padding:64px 24px;scroll-margin-top:16px}
+  body.mobile #start{padding-top:112px;padding-bottom:0}
+  body.mobile .hero{min-height:64svh;justify-content:center;padding:0 0 48px}
+  body.mobile .hero h1{width:100%}
+  body.mobile .hero .tag{max-width:25ch;margin-top:24px;font-size:19px;line-height:1.45}
+  body.mobile .hero .hint{margin-top:48px;font-size:12px}
+  body.mobile .prolog h2{font-size:clamp(32px,8vw,46px);max-width:14ch}
+  body.mobile .prolog p{font-size:16px;line-height:1.7}
+  body.mobile #panels .ch{border-top:1px solid var(--faint)}
+  body.mobile .panel{padding:0}
+  body.mobile .panel .rm-planet{width:min(100%,420px);margin:0 auto 32px;filter:drop-shadow(0 18px 40px color-mix(in srgb,var(--accent) 12%,transparent))}
+  body.mobile .panel .icon{width:34px;height:34px}
+  body.mobile .panel .kicker{gap:10px}
+  body.mobile .panel .title{margin:18px 0 10px;font-size:clamp(34px,9.8vw,58px);line-height:1.05;overflow-wrap:anywhere}
+  body.mobile .panel .tag{margin-bottom:20px;font-size:20px;line-height:1.4}
+  body.mobile .panel .desc{margin-bottom:28px;font-size:16px;line-height:1.75}
+  body.mobile .shots{gap:10px;padding:0;margin:0 0 28px}
+  body.mobile .shot{flex:1 1 0;border-radius:14px}
+  body.mobile .shot img{border-radius:14px}
+  body.mobile .facts{grid-template-columns:1fr;gap:4px;margin-bottom:28px;padding:20px;border:1px solid var(--faint);border-radius:16px;background:var(--ground-2);font-size:15px}
+  body.mobile .facts dd:not(:last-child){margin-bottom:14px}
+  body.mobile .actions{flex-direction:column;align-items:stretch;gap:12px}
+  body.mobile .actions .textlink{justify-content:center;min-height:52px;border:0;border-radius:14px;background:var(--accent);color:var(--ground);font-size:16px}
+  body.mobile .back{align-self:center}
+  body.mobile .outro .rm-planet{width:min(280px,75vw)}
+  body.mobile .outro h2{font-size:clamp(34px,9vw,48px);line-height:1.08}
+  body.mobile .outro p{font-size:16px;line-height:1.7}
+  body.mobile .imprint-link{position:relative;left:auto;bottom:auto;display:block;margin:0 auto;padding:18px 24px calc(24px + env(safe-area-inset-bottom,0px));min-height:48px}
+}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}

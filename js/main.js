@@ -16,11 +16,13 @@ import { initScreenshotViewer } from './ui/screenshots.js';
 import { startPlanetImageUpgrades } from './ui/planet-images.js';
 
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+const mobileLayout = matchMedia(`(max-width: ${CAMERA.mobileBreakpoint - 1}px)`);
 const finePointer = matchMedia('(pointer: fine)');
 const background = document.getElementById('bg');
 const effects = document.getElementById('fx');
 const state = {
-  reducedMotion: reducedMotion.matches, finePointer: finePointer.matches,
+  reducedMotion: reducedMotion.matches, documentFlow: reducedMotion.matches || mobileLayout.matches,
+  finePointer: finePointer.matches,
   timeline: createTimeline(), world: createWorld(BODIES), viewport: {},
   scroll: { target: 0, progress: 0, max: 1, navigation: null },
   mouse: { x: -999, y: -999, inside: false, interactive: false, mx: 0, my: 0, targetX: 0, targetY: 0 },
@@ -37,10 +39,14 @@ document.documentElement.style.setProperty('--body-canvas-size', `${RENDER.bodyC
 
 function applyMotionMode() {
   state.reducedMotion = reducedMotion.matches;
+  state.documentFlow = state.reducedMotion || mobileLayout.matches;
   document.body.classList.toggle('rm', state.reducedMotion);
-  document.body.classList.toggle('motion', !state.reducedMotion);
+  document.body.classList.toggle('mobile', mobileLayout.matches);
+  document.body.classList.toggle('flow', state.documentFlow);
+  document.body.classList.toggle('motion', !state.documentFlow);
+  document.getElementById('world').inert = state.documentFlow;
   closeCard(state);
-  if (state.reducedMotion) {
+  if (state.documentFlow) {
     for (const overlay of state.overlays) {
       overlay.el.removeAttribute('style');
       if (overlay.body) overlay.el.style.setProperty('--accent', overlay.body.accent);
@@ -61,7 +67,7 @@ function resize() {
   state.scroll.max = Math.max(1, document.documentElement.scrollHeight - innerHeight);
   createStars(state);
   readScroll(state);
-  if (state.reducedMotion) frame(performance.now(), 0);
+  if (state.documentFlow) frame(performance.now(), 0);
 }
 function go(id) { closeCard(state); navigate(id, state); }
 
@@ -91,8 +97,8 @@ addEventListener('pointermove', event => {
   if (event.pointerType !== 'mouse') return;
   const mouse = state.mouse;
   mouse.x = event.clientX; mouse.y = event.clientY; mouse.inside = true;
-  mouse.targetX = state.reducedMotion ? 0 : event.clientX / innerWidth * 2 - 1;
-  mouse.targetY = state.reducedMotion ? 0 : event.clientY / innerHeight * 2 - 1;
+  mouse.targetX = state.documentFlow ? 0 : event.clientX / innerWidth * 2 - 1;
+  mouse.targetY = state.documentFlow ? 0 : event.clientY / innerHeight * 2 - 1;
   mouse.interactive = !!event.target.closest('a,button');
 }, { passive: true });
 document.addEventListener('pointerleave', () => { state.mouse.inside = false; });
@@ -110,12 +116,13 @@ finePointer.addEventListener('change', () => { state.finePointer = finePointer.m
 
 function frame(time, dt) {
   state.time = time;
-  if (!state.reducedMotion) updateScroll(dt, state);
-  // Reduced motion shows an unchanging galaxy behind the normal document flow.
-  state.values = valuesAt(state.timeline, state.reducedMotion ? state.timeline.gaps[0].anchor : state.scroll.progress);
+  if (!state.documentFlow) updateScroll(dt, state);
+  // The document layouts use a still background rather than the desktop flight timeline.
+  state.values = valuesAt(state.timeline, state.documentFlow ? state.timeline.gaps[0].anchor : state.scroll.progress);
   updateWorld(dt, state);
   updateCamera(state);
-  renderStars(state); renderBelt(state); renderBodies(state);
+  renderStars(state);
+  if (!mobileLayout.matches) { renderBelt(state); renderBodies(state); }
   renderPanels(state); updateHud(state); updateLabels(state); updateHotspots(state); renderComet(dt, state);
 }
 let previousTime = performance.now();
@@ -124,30 +131,32 @@ function loop(time) {
   frameId = null;
   const dt = Math.min(SCROLL.maxDt, (time - previousTime) / 1000); previousTime = time;
   frame(time, dt);
-  if (!state.reducedMotion) frameId = requestAnimationFrame(loop);
+  if (!state.documentFlow) frameId = requestAnimationFrame(loop);
 }
 function startLoop() {
-  if (frameId !== null || state.reducedMotion) return;
+  if (frameId !== null || state.documentFlow) return;
   previousTime = performance.now(); frameId = requestAnimationFrame(loop);
 }
-reducedMotion.addEventListener('change', () => {
+function changeLayout() {
   if (frameId !== null) { cancelAnimationFrame(frameId); frameId = null; }
   applyMotionMode(); resize();
   const id = location.hash.slice(1);
   if (state.timeline.anchors[id] != null) {
-    if (state.reducedMotion) document.getElementById(id)?.scrollIntoView();
+    if (state.documentFlow) document.getElementById(id)?.scrollIntoView();
     else {
       state.scroll.target = state.scroll.progress = state.timeline.anchors[id];
       scrollTo({ top: state.scroll.target * state.scroll.max, behavior: 'instant' });
     }
   }
   startLoop();
-});
-state.beltImage.onload = () => { if (state.reducedMotion) frame(performance.now(), 0); };
+}
+reducedMotion.addEventListener('change', changeLayout);
+mobileLayout.addEventListener('change', changeLayout);
+state.beltImage.onload = () => { if (state.documentFlow) frame(performance.now(), 0); };
 applyLanguage(); applyMotionMode(); resize();
 const initial = location.hash.slice(1);
 if (state.timeline.anchors[initial] != null) {
-  if (state.reducedMotion) document.getElementById(initial)?.scrollIntoView();
+  if (state.documentFlow) document.getElementById(initial)?.scrollIntoView();
   else {
     state.scroll.target = state.scroll.progress = state.timeline.anchors[initial];
     scrollTo({ top: state.scroll.target * state.scroll.max, behavior: 'instant' });

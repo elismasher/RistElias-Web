@@ -20,7 +20,7 @@ export function createHud(state) {
   });
 }
 export function updateHud(state) {
-  if (state.reducedMotion) return;
+  if (state.documentFlow) return;
   let exploredChanged = false;
   for (const body of state.world.planets) {
     const ranges = state.timeline.stations.find(station => station.id === body.id);

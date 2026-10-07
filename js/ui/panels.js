@@ -38,7 +38,9 @@ function features(body) {
   const list = node('ul');
   for (const hotspot of body.hotspots ?? []) {
     const item = node('li');
-    item.append(node('b', '', `${hotspot.key}.t`), node('span', '', `${hotspot.key}.b`));
+    const detail = node('details');
+    detail.append(node('summary', '', `${hotspot.key}.t`), node('p', '', `${hotspot.key}.b`));
+    item.append(detail);
     list.append(item);
   }
   box.append(list); return box;
@@ -74,7 +76,7 @@ export function createPanels(state) {
       domain.textContent = body.domain;
       kicker.append(image(body.icon, 'icon'), domain);
       panel.append(kicker, node('h2', 'title', body.copy.name), node('p', 'tag', body.copy.tag),
-        node('p', 'desc', body.copy.body), node('p', 'explore mono', 'explore'), features(body));
+        node('p', 'desc', body.copy.body), node('p', 'explore mono', 'explore'));
       const shots = screenshots(body);
       const facts = node('dl', 'facts');
       for (const key of body.facts ?? []) {
@@ -85,7 +87,7 @@ export function createPanels(state) {
       const link = node('a', 'textlink act', body.copy.link);
       link.href = body.url; link.target = '_blank'; link.rel = 'noopener';
       const back = node('button', 'back act', 'back'); back.type = 'button'; back.dataset.go = 'galaxie';
-      actions.append(link, back); panel.append(shots, facts, actions);
+      actions.append(link, back); panel.append(shots, features(body), facts, actions);
     }
     if (!isOutro) { section.append(panel); container.append(section); }
     state.overlays.push({ el: panel, kind: center ? 'center' : 'panel', body });
@@ -93,9 +95,18 @@ export function createPanels(state) {
   const projectTarget = bodies.find(body => body.type === 'asteroid') ?? bodies.at(-1);
   document.querySelector('[data-project-link]').href = `#${projectTarget.id}`;
   document.querySelector('[data-project-link]').dataset.go = projectTarget.id;
+  const projects = node('nav', 'project-nav');
+  projects.dataset.i18nAria = 'hud';
+  for (const body of bodies) {
+    const link = node('a', 'act', body.copy.name);
+    link.href = `#${body.id}`; link.dataset.go = body.id;
+    link.style.setProperty('--accent', body.accent);
+    projects.append(link);
+  }
+  document.getElementById('ov-prolog').append(projects);
 }
 export function renderPanels(state) {
-  if (state.reducedMotion) return;
+  if (state.documentFlow) return;
   let panelOpacity = 0, prologOpacity = 0, centerOpacity = 0;
   for (const overlay of state.overlays) {
     const { el, kind, body } = overlay;
