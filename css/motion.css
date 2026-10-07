@@ -30,7 +30,7 @@ body.flow .project-nav a:hover{border-color:var(--accent)}
 @media (max-width:759px){
   body.mobile #stage{opacity:.48;pointer-events:none}
   body.mobile #world{display:none}
-  body.mobile .top{position:absolute;padding-top:calc(20px + env(safe-area-inset-top,0px))}
+  body.mobile .top{position:fixed;padding-top:calc(20px + env(safe-area-inset-top,0px))}
   body.mobile .lang button{min-height:36px;padding:6px 13px}
   body.mobile .ch{padding:64px 24px;scroll-margin-top:16px}
   body.mobile #start{padding-top:112px;padding-bottom:0}
@@ -41,8 +41,15 @@ body.flow .project-nav a:hover{border-color:var(--accent)}
   body.mobile .prolog h2{font-size:clamp(32px,8vw,46px);max-width:14ch}
   body.mobile .prolog p{font-size:16px;line-height:1.7}
   body.mobile #panels .ch{border-top:1px solid var(--faint)}
-  body.mobile .panel{padding:0}
-  body.mobile .panel .rm-planet{width:min(100%,420px);margin:0 auto 32px;filter:drop-shadow(0 18px 40px color-mix(in srgb,var(--accent) 12%,transparent))}
+  body.mobile .project-section{height:calc(100svh + var(--mobile-travel,0px));padding:0 24px;scroll-margin-top:0}
+  body.mobile .panel{position:sticky;top:0;display:flex;flex-direction:column;height:100svh;padding:0;max-width:none}
+  body.mobile .panel-planet{display:flex;align-items:center;justify-content:center;flex:none;height:min(48svh,420px);padding:56px 0 12px}
+  body.mobile .panel .rm-planet{flex:none;width:min(100%,calc(48svh - 68px),352px);margin:0;filter:drop-shadow(0 18px 40px color-mix(in srgb,var(--accent) 12%,transparent))}
+  body.mobile .panel .hs{opacity:1;transform:none;visibility:visible;pointer-events:auto;width:44px;height:44px;margin:-22px 0 0 -22px}
+  body.mobile .panel .hs span,body.mobile .panel .hs::after{width:12px;height:12px;margin:-6px}
+  body.mobile .panel-copy{display:block;flex:1;min-height:0;overflow:clip;position:relative}
+  body.mobile .panel-content{display:flow-root;padding:16px 0 32px;will-change:transform}
+  body.mobile .panel .explore{display:flex;font-size:12px;line-height:1.6}
   body.mobile .panel .icon{width:34px;height:34px}
   body.mobile .panel .kicker{gap:10px}
   body.mobile .panel .title{margin:18px 0 10px;font-size:clamp(34px,9.8vw,58px);line-height:1.05;overflow-wrap:anywhere}

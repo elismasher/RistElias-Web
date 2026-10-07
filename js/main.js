@@ -14,6 +14,7 @@ import { fillPlanetLabel, updateLabels } from './ui/labels.js';
 import { renderComet } from './ui/comet.js';
 import { initScreenshotViewer } from './ui/screenshots.js';
 import { startPlanetImageUpgrades } from './ui/planet-images.js';
+import { initMobilePanels } from './ui/mobile-panels.js';
 
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 const mobileLayout = matchMedia(`(max-width: ${CAMERA.mobileBreakpoint - 1}px)`);
@@ -102,7 +103,10 @@ addEventListener('pointermove', event => {
   mouse.interactive = !!event.target.closest('a,button');
 }, { passive: true });
 document.addEventListener('pointerleave', () => { state.mouse.inside = false; });
-addEventListener('scroll', () => readScroll(state), { passive: true });
+addEventListener('scroll', () => {
+  readScroll(state);
+  if (state.viewport.mobile) closeCard(state);
+}, { passive: true });
 addEventListener('keydown', event => {
   if (event.key !== 'Escape') return;
   if (document.querySelector('dialog[open]')) return;
@@ -167,6 +171,7 @@ frame(performance.now(), 0);
 startLoop();
 
 startPlanetImageUpgrades();
+initMobilePanels(state);
 initScreenshotViewer();
 const imprint = document.getElementById('imprint');
 document.getElementById('imprintOpen').addEventListener('click', () => imprint.showModal());
