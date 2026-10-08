@@ -53,7 +53,7 @@ export const FACTS = {
   widgets: { label: 'f.widgets', value: 'f.widgetsv' },
 };
 export const ASSETS = { sun: 'assets/img/logo-mark-light.png', belt: 'assets/img/planets/asteroid-preview.webp' };
-export const CONTENT = { contact: 'mailto:' }; // TODO: Real email address.
+export const CONTENT = { contact: 'mailto:rist24082001@gmail.com' };
 export const MOTION_DEFAULTS = {
   planet: { mode: 'wobble', amplitude: 4, period: 9 },
   asteroid: { mode: 'spin', speed: 0.07 },

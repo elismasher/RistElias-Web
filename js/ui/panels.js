@@ -95,15 +95,36 @@ export function createPanels(state) {
   document.querySelector('[data-project-link]').href = `#${projectTarget.id}`;
   document.querySelector('[data-project-link]').dataset.go = projectTarget.id;
 }
+// Reading scrollHeight/clientHeight forces a synchronous layout, so the
+// scrollable range is cached per overlay and only re-measured after a resize.
+function scrollRange(overlay) {
+  if (overlay.range == null) overlay.range = Math.max(0, overlay.el.scrollHeight - overlay.el.clientHeight);
+  return overlay.range;
+}
+function observeRange(overlay) {
+  const observer = new ResizeObserver(() => { overlay.range = null; });
+  observer.observe(overlay.el);
+  for (const child of overlay.el.children) observer.observe(child);
+}
+let scrims = null;
+const scrimValues = [];
+// Skips DOM writes whose value did not change since the previous frame.
+function setStyle(overlay, prop, value) {
+  if (overlay.written[prop] === value) return;
+  overlay.written[prop] = value;
+  overlay.el.style[prop] = value;
+}
 export function renderPanels(state) {
   if (state.reducedMotion) return;
   let panelOpacity = 0, prologOpacity = 0, centerOpacity = 0;
   for (const overlay of state.overlays) {
     const { el, kind, body } = overlay;
+    if (!overlay.written) { overlay.written = {}; overlay.range = null; if (typeof ResizeObserver !== 'undefined') observeRange(overlay); }
     const opacity = kind === 'hero' ? state.values.hero : kind === 'prolog' ? state.values.prolog : body.panelOpacity;
-    el.style.opacity = opacity;
-    el.style.visibility = opacity < UI.visibleOpacity ? 'hidden' : 'visible';
-    el.inert = opacity <= UI.interactiveOpacity;
+    setStyle(overlay, 'opacity', opacity);
+    setStyle(overlay, 'visibility', opacity < UI.visibleOpacity ? 'hidden' : 'visible');
+    const inert = opacity <= UI.interactiveOpacity;
+    if (el.inert !== inert) el.inert = inert;
     const offset = (1 - opacity) * UI.overlayOffset;
     if (kind === 'panel') {
       // Only the document accepts scroll input on mobile. Its timeline moves
@@ -112,25 +133,25 @@ export function renderPanels(state) {
         const station = state.timeline.stations.find(station => station.id === body.id);
         const end = station.panel[2] ?? station.hold[1];
         const progress = ramp(state.scroll.progress, station.panel[1], end);
-        el.scrollTop = progress * Math.max(0, el.scrollHeight - el.clientHeight);
+        if (opacity >= UI.visibleOpacity) el.scrollTop = progress * scrollRange(overlay);
       }
-      el.style.transform = state.viewport.mobile ? `translateY(${offset * UI.panelY}px)`
-        : `translateY(-50%) translateX(${offset * UI.panelX}px)`;
+      setStyle(overlay, 'transform', state.viewport.mobile ? `translateY(${offset * UI.panelY}px)`
+        : `translateY(-50%) translateX(${offset * UI.panelX}px)`);
       panelOpacity = Math.max(panelOpacity, opacity);
     } else if (kind === 'prolog') {
       // Read the introduction during its hold, before the journey continues.
       const progress = state.viewport.mobile
         ? ramp(state.scroll.progress, state.timeline.prolog[1], state.timeline.prolog[2]) : 0;
-      el.scrollTop = progress * Math.max(0, el.scrollHeight - el.clientHeight);
-      el.style.transform = state.viewport.mobile ? `translateY(${offset}px)` : `translateY(calc(-50% + ${offset}px))`;
+      if (opacity >= UI.visibleOpacity) el.scrollTop = progress * scrollRange(overlay);
+      setStyle(overlay, 'transform', state.viewport.mobile ? `translateY(${offset}px)` : `translateY(calc(-50% + ${offset}px))`);
       prologOpacity = opacity;
     } else if (kind === 'center') {
-      el.style.transform = `translateX(-50%) translateY(${offset}px)`;
+      setStyle(overlay, 'transform', `translateX(-50%) translateY(${offset}px)`);
       centerOpacity = Math.max(centerOpacity, opacity);
-    } else el.style.transform = `translateY(${-offset * UI.heroY}px)`;
-    el.style.pointerEvents = opacity > UI.interactiveOpacity && kind === 'panel' ? 'auto' : 'none';
+    } else setStyle(overlay, 'transform', `translateY(${-offset * UI.heroY}px)`);
+    setStyle(overlay, 'pointerEvents', opacity > UI.interactiveOpacity && kind === 'panel' ? 'auto' : 'none');
   }
-  document.getElementById('scrimL').style.opacity = prologOpacity;
-  document.getElementById('scrimR').style.opacity = panelOpacity;
-  document.getElementById('scrimB').style.opacity = centerOpacity;
+  scrims ??= ['scrimL', 'scrimR', 'scrimB'].map(id => document.getElementById(id));
+  const values = [prologOpacity, panelOpacity, centerOpacity];
+  scrims.forEach((scrim, i) => { if (scrimValues[i] !== values[i]) { scrimValues[i] = values[i]; scrim.style.opacity = values[i]; } });
 }

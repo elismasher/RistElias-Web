@@ -43,6 +43,7 @@ function applyMotionMode() {
   if (state.reducedMotion) {
     for (const overlay of state.overlays) {
       overlay.el.removeAttribute('style');
+      overlay.written = {};
       if (overlay.body) overlay.el.style.setProperty('--accent', overlay.body.accent);
       overlay.el.inert = false;
     }
