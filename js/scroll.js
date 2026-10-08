@@ -33,7 +33,7 @@ export function replaceHash(id) {
 export function navigate(id, state) {
   const target = state.timeline.anchors[id];
   if (target == null) return;
-  if (state.documentFlow) {
+  if (state.reducedMotion) {
     document.getElementById(id)?.scrollIntoView();
     replaceHash(id);
     return;
