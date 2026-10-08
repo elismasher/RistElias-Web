@@ -1,6 +1,7 @@
 import { CONTENT, FACTS, UI } from '../config.js';
 import { getLanguage, onLanguageChange, t } from '../i18n.js';
 import { createPlanetImage } from './planet-images.js';
+import { ramp } from '../math.js';
 
 function node(tag, className, key) {
   const el = document.createElement(tag);
@@ -105,6 +106,14 @@ export function renderPanels(state) {
     el.inert = opacity <= UI.interactiveOpacity;
     const offset = (1 - opacity) * UI.overlayOffset;
     if (kind === 'panel') {
+      // Only the document accepts scroll input on mobile. Its timeline moves
+      // the copy through the existing panel while the planet stays focused.
+      if (state.viewport.mobile) {
+        const station = state.timeline.stations.find(station => station.id === body.id);
+        const end = station.panel[2] ?? station.hold[1];
+        const progress = ramp(state.scroll.progress, station.panel[1], end);
+        el.scrollTop = progress * Math.max(0, el.scrollHeight - el.clientHeight);
+      }
       el.style.transform = state.viewport.mobile ? `translateY(${offset * UI.panelY}px)`
         : `translateY(-50%) translateX(${offset * UI.panelX}px)`;
       panelOpacity = Math.max(panelOpacity, opacity);

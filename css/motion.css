@@ -4,6 +4,7 @@
   .prolog{left:20px;right:20px;width:auto;top:auto;bottom:calc(30px + env(safe-area-inset-bottom,0px));transform:none}
   .panel{left:0;right:0;top:auto;bottom:0;transform:none;max-height:54vh;padding:28px 20px calc(24px + env(safe-area-inset-bottom,0px));
     background:linear-gradient(180deg,rgba(20,21,26,0) 0,rgba(20,21,26,.92) 40px,var(--ground) 120px)}
+  body.motion .panel{overflow:hidden}
   .panel .title{font-size:44px}
   .scrim.l{background:linear-gradient(0deg,rgba(20,21,26,.92) 0,rgba(20,21,26,.6) 38%,rgba(20,21,26,0) 60%)}
   .scrim.r{display:none}

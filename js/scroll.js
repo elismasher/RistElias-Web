@@ -30,8 +30,16 @@ export function updateScroll(dt, state) {
 export function replaceHash(id) {
   history.replaceState(null, '', id === 'start' ? location.pathname + location.search : '#' + id);
 }
+export function navigationTarget(id, state) {
+  // Mobile deep links start at the heading, before the page scrolls the copy.
+  if (state.viewport.mobile && !state.reducedMotion) {
+    const station = state.timeline.stations.find(station => station.id === id);
+    if (station && state.world.planets.find(body => body.id === id)?.layout !== 'center') return station.panel[1];
+  }
+  return state.timeline.anchors[id];
+}
 export function navigate(id, state) {
-  const target = state.timeline.anchors[id];
+  const target = navigationTarget(id, state);
   if (target == null) return;
   if (state.reducedMotion) {
     document.getElementById(id)?.scrollIntoView();

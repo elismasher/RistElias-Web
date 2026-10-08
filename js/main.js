@@ -1,7 +1,7 @@
 import { BODIES, CAMERA, COMET, SCROLL, RENDER } from './config.js';
 import { createTimeline, valuesAt } from './timeline.js';
 import { applyLanguage, onLanguageChange } from './i18n.js';
-import { readScroll, updateScroll, navigate } from './scroll.js';
+import { readScroll, updateScroll, navigate, navigationTarget } from './scroll.js';
 import { createWorld, updateWorld } from './world.js';
 import { updateCamera } from './camera.js';
 import { createStars, renderStars } from './render/stars.js';
@@ -137,7 +137,7 @@ reducedMotion.addEventListener('change', () => {
   if (state.timeline.anchors[id] != null) {
     if (state.reducedMotion) document.getElementById(id)?.scrollIntoView();
     else {
-      state.scroll.target = state.scroll.progress = state.timeline.anchors[id];
+      state.scroll.target = state.scroll.progress = navigationTarget(id, state);
       scrollTo({ top: state.scroll.target * state.scroll.max, behavior: 'instant' });
     }
   }
@@ -149,7 +149,7 @@ const initial = location.hash.slice(1);
 if (state.timeline.anchors[initial] != null) {
   if (state.reducedMotion) document.getElementById(initial)?.scrollIntoView();
   else {
-    state.scroll.target = state.scroll.progress = state.timeline.anchors[initial];
+    state.scroll.target = state.scroll.progress = navigationTarget(initial, state);
     scrollTo({ top: state.scroll.target * state.scroll.max, behavior: 'instant' });
   }
 } else readScroll(state);

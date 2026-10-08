@@ -25,7 +25,7 @@ export const BODIES = [
       en: ['assets/img/mocks/phaseparadise/en/2.png', 'assets/img/mocks/phaseparadise/en/3.png', 'assets/img/mocks/phaseparadise/en/4.png'],
     },
     url: 'https://www.phaseparadise.app', domain: 'phaseparadise.app', accent: '#FF8C3A',
-    orbit: { a: 470, period: 80, startAngle: -0.5 }, size: 205, focusScale: 1.18,
+    orbit: { a: 470, period: 80, startAngle: -0.5 }, size: 130, focusScale: 1,
     motion: { mode: 'wobble', amplitude: 3, period: 11 },
     // TODO: Check the existing copy against phaseparadise.app; no invented replacement copy.
     copy: { name: 'phaseparadise.name', hit: 'hit.phase', tag: 'phase.tag', body: 'phase.body', link: 'phase.link' },
