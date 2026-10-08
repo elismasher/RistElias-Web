@@ -33,6 +33,7 @@ export function replaceHash(id) {
 export function navigationTarget(id, state) {
   // Mobile deep links start at the heading, before the page scrolls the copy.
   if (state.viewport.mobile && !state.reducedMotion) {
+    if (id === 'galaxie') return state.timeline.prolog[1];
     const station = state.timeline.stations.find(station => station.id === id);
     if (station && state.world.planets.find(body => body.id === id)?.layout !== 'center') return station.panel[1];
   }

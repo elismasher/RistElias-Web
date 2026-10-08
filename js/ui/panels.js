@@ -118,6 +118,10 @@ export function renderPanels(state) {
         : `translateY(-50%) translateX(${offset * UI.panelX}px)`;
       panelOpacity = Math.max(panelOpacity, opacity);
     } else if (kind === 'prolog') {
+      // Read the introduction during its hold, before the journey continues.
+      const progress = state.viewport.mobile
+        ? ramp(state.scroll.progress, state.timeline.prolog[1], state.timeline.prolog[2]) : 0;
+      el.scrollTop = progress * Math.max(0, el.scrollHeight - el.clientHeight);
       el.style.transform = state.viewport.mobile ? `translateY(${offset}px)` : `translateY(calc(-50% + ${offset}px))`;
       prologOpacity = opacity;
     } else if (kind === 'center') {
