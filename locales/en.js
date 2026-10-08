@@ -2,7 +2,7 @@ export default {
   "hero.tag": "Software that makes everyday life easier.",
   "hero.hint": "Scroll to take off",
   "prolog.title": "Hi, I'm Elias.",
-  "prolog.body": "I'm a software developer based in Linz, Austria. I build web applications with Angular and .NET and mobile applications with Flutter, modernize existing systems and bring my own product ideas to life. I use AI to improve and extend software, simplifying workflows and making it even more useful in everyday life. My work spans requirements, architecture and implementation. With a bachelor's degree in Software Engineering, I'm now pursuing a master's in Information Engineering & Management.",
+  "prolog.body": "I build software that simplifies complex tasks and helps businesses move forward. As a software developer based in Linz with roots in Tyrol, I combine technical expertise with a strong understanding of business. I laid the foundations at HTL Anichstraße in Innsbruck, studying industrial engineering, and went on to deepen my expertise with a bachelor's degree in Software Engineering and a master's degree in Information Engineering & Management.\n\nWhether you need a web application built with Angular and .NET, a mobile app built with Flutter, or an existing system modernized, I take your project from the initial idea through architecture to a working application. I use AI where it adds value, automating workflows and making applications more capable.\n\nI think beyond the code: your software should fit your business, grow with your needs and deliver in everyday use.",
   "prolog.cta": "Start a project",
   "prolog.linkedin": "LinkedIn profile",
   "prolog.hint": "Explore my projects.",
