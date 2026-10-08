@@ -1,8 +1,8 @@
 export default {
-  "hero.tag": "Developing software. Bringing ideas to life.",
+  "hero.tag": "Software that makes everyday life easier.",
   "hero.hint": "Scroll to take off",
   "prolog.title": "Hi, I'm Elias.",
-  "prolog.body": "I'm a software developer based in Linz, Austria. I build web applications with Angular and .NET, modernize existing systems and bring my own product ideas to life. My work spans requirements, architecture and implementation. With a bachelor's degree in Software Engineering, I'm now pursuing a master's in Information Engineering & Management.",
+  "prolog.body": "I'm a software developer based in Linz, Austria. I build web applications with Angular and .NET and mobile applications with Flutter, modernize existing systems and bring my own product ideas to life. I use AI to improve and extend software, simplifying workflows and making it even more useful in everyday life. My work spans requirements, architecture and implementation. With a bachelor's degree in Software Engineering, I'm now pursuing a master's in Information Engineering & Management.",
   "prolog.cta": "Start a project",
   "prolog.hint": "Explore my projects.",
   "spot.tag": "Your spots. Your next trip.",
