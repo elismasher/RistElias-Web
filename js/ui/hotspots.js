@@ -26,7 +26,7 @@ export function closeCard(state) {
 }
 export function showCard(button, state) {
   closeCard(state); state.openHotspot = button; fillCard(state);
-  state.card.style.setProperty('--accent', button.closest('.planet, .panel').style.getPropertyValue('--accent'));
+  state.card.style.setProperty('--accent', button.closest('.planet').style.getPropertyValue('--accent'));
   state.card.hidden = false; button.setAttribute('aria-expanded', 'true'); placeCard(state);
 }
 export function placeCard(state) {
@@ -44,7 +44,6 @@ export function placeCard(state) {
 }
 export function updateHotspots(state) {
   if (!state.openHotspot) return;
-  if (state.openHotspot.closest('.panel') && state.viewport.mobile) { placeCard(state); return; }
   const owner = state.openHotspot.closest('.body');
   if (!state.world.focus || state.world.focus.el !== owner || state.world.amount < UI.cardCloseFocus || state.reducedMotion) closeCard(state);
   else placeCard(state);

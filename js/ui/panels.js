@@ -1,7 +1,6 @@
 import { CONTENT, FACTS, UI } from '../config.js';
 import { getLanguage, onLanguageChange, t } from '../i18n.js';
 import { createPlanetImage } from './planet-images.js';
-import { createHotspots } from './hotspots.js';
 
 function node(tag, className, key) {
   const el = document.createElement(tag);
@@ -89,15 +88,6 @@ export function createPanels(state) {
       link.href = body.url; link.target = '_blank'; link.rel = 'noopener';
       const back = node('button', 'back act', 'back'); back.type = 'button'; back.dataset.go = 'galaxie';
       actions.append(link, back); panel.append(shots, features(body), facts, actions);
-      const art = panel.querySelector('.rm-planet');
-      const planet = node('div', 'panel-planet');
-      art.removeAttribute('aria-hidden');
-      createHotspots(body, art);
-      const copy = node('div', 'panel-copy');
-      const content = node('div', 'panel-content');
-      content.append(...[...panel.children].filter(child => child !== art));
-      copy.append(content); planet.append(art); panel.append(planet, copy);
-      section.classList.add('project-section');
     }
     if (!isOutro) { section.append(panel); container.append(section); }
     state.overlays.push({ el: panel, kind: center ? 'center' : 'panel', body });
