@@ -4,6 +4,7 @@ export default {
   "prolog.title": "Hi, ich bin Elias.",
   "prolog.body": "Ich bin Softwareentwickler aus Linz. Ich entwickle Webanwendungen mit Angular und .NET sowie mobile Anwendungen mit Flutter, modernisiere bestehende Systeme und setze eigene Produktideen um. Mit KI erweitere und optimiere ich Software, damit sie Abläufe vereinfacht und Menschen im Alltag noch besser unterstützt. Dabei begleite ich Software von den Anforderungen über die Architektur bis zur Umsetzung. Nach meinem Bachelor in Software Engineering vertiefe ich mein Wissen im Masterstudium Information Engineering & Management.",
   "prolog.cta": "Projekt anfragen",
+  "prolog.linkedin": "LinkedIn-Profil",
   "prolog.hint": "Entdecke meine Projekte.",
   "spot.tag": "Deine Spots. Deine nächste Reise.",
   "spot.body": "Ein Ort in Google Maps oder Apple Maps gefällt dir? Teile ihn an SpotJar. Notiz, Kategorie und Reiseplan bleiben zusammen, bis du die fertige Route wieder in Maps öffnest.",
