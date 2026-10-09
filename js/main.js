@@ -52,6 +52,14 @@ function applyMotionMode() {
   }
 }
 function resize() {
+  // Mobile browsers resize the viewport while the address bar slides; a full
+  // canvas rebuild then makes scrolling stutter, so only the range is updated.
+  const old = state.viewport;
+  if (old?.mobile && innerWidth === old.width && Math.abs(innerHeight - old.height) < 160 && !state.reducedMotion) {
+    state.scroll.max = Math.max(1, document.documentElement.scrollHeight - innerHeight);
+    readScroll(state);
+    return;
+  }
   state.viewport = { width: innerWidth, height: innerHeight, mobile: innerWidth < CAMERA.mobileBreakpoint };
   const dpr = Math.min(CAMERA.dprCap, devicePixelRatio || 1);
   for (const canvas of [background, effects]) {

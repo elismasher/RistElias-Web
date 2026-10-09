@@ -23,7 +23,9 @@ export function updateScroll(dt, state) {
       else { scroll.progress = target; scroll.navigation = null; }
     }
   } else {
-    scroll.progress += (scroll.target - scroll.progress) * (1 - Math.exp(-dt * SCROLL.smoothing));
+    // Touch already has native momentum; heavy extra easing makes it feel laggy.
+    const rate = state.viewport.mobile ? SCROLL.touchSmoothing : SCROLL.smoothing;
+    scroll.progress += (scroll.target - scroll.progress) * (1 - Math.exp(-dt * rate));
     if (Math.abs(scroll.target - scroll.progress) < SCROLL.settleThreshold) scroll.progress = scroll.target;
   }
 }

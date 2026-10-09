@@ -112,7 +112,7 @@ export const RENDER = {
   orbitThreshold: 0.01, hoverFocus: 0.05, hitFocus: 0.04, landedFocus: 0.93, exploredFocus: 0.99,
 };
 export const SCROLL = {
-  maxDt: 0.05, parallaxSmoothing: 3, smoothing: 5, navSmoothing: 3.4,
+  maxDt: 0.05, parallaxSmoothing: 3, smoothing: 5, touchSmoothing: 18, navSmoothing: 3.4,
   navMinSpeed: 0.03, navThreshold: 0.0015, scrollCancelThreshold: 0.004, settleThreshold: 0.00001,
 };
 export const UI = {
