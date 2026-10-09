@@ -94,23 +94,39 @@ export function createPanels(state) {
   const projectTarget = bodies.find(body => body.type === 'asteroid') ?? bodies.at(-1);
   document.querySelector('[data-project-link]').href = `#${projectTarget.id}`;
   document.querySelector('[data-project-link]').dataset.go = projectTarget.id;
+  for (const overlay of state.overlays) {
+    overlay.written = {};
+    if (overlay.kind !== 'panel' && overlay.kind !== 'prolog') continue;
+    const content = node('div', 'ov-content');
+    content.append(...overlay.el.childNodes);
+    overlay.el.append(content);
+    overlay.content = content;
+    if (typeof ResizeObserver !== 'undefined') observeRange(overlay);
+  }
 }
-// Reading scrollHeight/clientHeight forces a synchronous layout, so the
-// scrollable range is cached per overlay and only re-measured after a resize.
-function scrollRange(overlay) {
-  if (overlay.range == null) overlay.range = Math.max(0, overlay.el.scrollHeight - overlay.el.clientHeight);
-  return overlay.range;
+// Measure all invalidated ranges before the frame writes any styles. Moving a
+// content layer does not change its measured height or repaint its text.
+export function measurePanels(state) {
+  if (state.reducedMotion || !state.viewport.mobile) return;
+  for (const overlay of state.overlays) {
+    if (!overlay.content || overlay.range != null) continue;
+    const style = getComputedStyle(overlay.el);
+    const padding = parseFloat(style.paddingTop) + parseFloat(style.paddingBottom);
+    overlay.range = Math.max(0, overlay.content.offsetHeight + padding - overlay.el.clientHeight);
+  }
 }
 function observeRange(overlay) {
-  const observer = new ResizeObserver(() => { overlay.range = null; overlay.scrolled = undefined; });
+  const observer = new ResizeObserver(() => { overlay.range = null; });
   observer.observe(overlay.el);
-  for (const child of overlay.el.children) observer.observe(child);
+  observer.observe(overlay.content);
 }
-// Assigning scrollTop forces layout, so it is only written when it changes.
+// The document remains the only scroll surface on mobile. Translate the copy
+// on its own compositor layer instead of forcing style updates via scrollTop.
 function setScroll(overlay, value) {
+  value = Math.round(value * 100) / 100;
   if (overlay.scrolled === value) return;
   overlay.scrolled = value;
-  overlay.el.scrollTop = value;
+  overlay.content.style.transform = `translate3d(0,${-value}px,0)`;
 }
 let scrims = null;
 const scrimValues = [];
@@ -125,7 +141,6 @@ export function renderPanels(state) {
   let panelOpacity = 0, prologOpacity = 0, centerOpacity = 0;
   for (const overlay of state.overlays) {
     const { el, kind, body } = overlay;
-    if (!overlay.written) { overlay.written = {}; overlay.range = null; if (typeof ResizeObserver !== 'undefined') observeRange(overlay); }
     const opacity = kind === 'hero' ? state.values.hero : kind === 'prolog' ? state.values.prolog : body.panelOpacity;
     setStyle(overlay, 'opacity', opacity);
     setStyle(overlay, 'visibility', opacity < UI.visibleOpacity ? 'hidden' : 'visible');
@@ -139,7 +154,9 @@ export function renderPanels(state) {
         const station = state.timeline.stations.find(station => station.id === body.id);
         const end = station.panel[2] ?? station.hold[1];
         const progress = ramp(state.scroll.progress, station.panel[1], end);
-        if (opacity >= UI.visibleOpacity) setScroll(overlay, progress * scrollRange(overlay));
+        if (opacity >= UI.visibleOpacity) setScroll(overlay, progress * overlay.range);
+      } else if (overlay.scrolled !== 0) {
+        setScroll(overlay, 0);
       }
       setStyle(overlay, 'transform', state.viewport.mobile ? `translateY(${offset * UI.panelY}px)`
         : `translateY(-50%) translateX(${offset * UI.panelX}px)`);
@@ -148,7 +165,7 @@ export function renderPanels(state) {
       // Read the introduction during its hold, before the journey continues.
       const progress = state.viewport.mobile
         ? ramp(state.scroll.progress, state.timeline.prolog[1], state.timeline.prolog[2]) : 0;
-      if (opacity >= UI.visibleOpacity) setScroll(overlay, progress * scrollRange(overlay));
+      if (opacity >= UI.visibleOpacity) setScroll(overlay, progress * (overlay.range ?? 0));
       setStyle(overlay, 'transform', state.viewport.mobile ? `translateY(${offset}px)` : `translateY(calc(-50% + ${offset}px))`);
       prologOpacity = opacity;
     } else if (kind === 'center') {

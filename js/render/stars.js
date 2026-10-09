@@ -42,7 +42,7 @@ export function renderStars(state) {
     const y = vh / 2 + star.y * expansion - mouse.my * STARS.parallaxY * depth - camY * depth;
     if (x < -margin || y < -margin || x > vw + margin || y > vh + margin) continue;
     const alpha = star.alpha * (still ? 1 : STARS.twinkleBase + STARS.twinkleAmplitude
-      * Math.sin(state.time * STARS.twinkleFrequency * (1 + depth * STARS.twinkleDepth) + star.twinkle));
+      * Math.sin(state.sceneTime * STARS.twinkleFrequency * (1 + depth * STARS.twinkleDepth) + star.twinkle));
     const step = Math.max(0, Math.min(ALPHA_STEPS, Math.round(alpha * ALPHA_STEPS)));
     const color = star.warm ? 1 : star.cool ? 2 : 0;
     const batch = batchFor(color, step) ?? (batches[color][step] = []);

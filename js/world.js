@@ -25,7 +25,7 @@ export function updateWorld(dt, state) {
     if (body.focus > (world.focus?.focus ?? 0)) world.focus = body;
   });
   world.amount = world.focus?.focus ?? 0;
-  world.speed = state.reducedMotion ? 0 : 1 - world.amount;
+  world.speed = state.reducedMotion || state.mobileReading ? 0 : 1 - world.amount;
   for (const body of world.planets) {
     body.angle += TAU / body.orbit.period * dt * world.speed;
     body.wx = body.orbit.a * Math.cos(body.angle);
@@ -33,9 +33,9 @@ export function updateWorld(dt, state) {
     const defaults = MOTION_DEFAULTS[body.type];
     const motion = { ...defaults, ...body.motion };
     if (state.reducedMotion) body.rotation = 0;
-    else if (motion.mode === 'spin') body.rotation += motion.speed * dt;
+    else if (motion.mode === 'spin') body.rotation += motion.speed * dt * (state.mobileReading ? 0 : 1);
     else if (motion.mode === 'wobble') {
-      body.rotation = Math.sin(state.time / 1000 * TAU / motion.period) * motion.amplitude * Math.PI / 180;
+      body.rotation = Math.sin(state.sceneTime / 1000 * TAU / motion.period) * motion.amplitude * Math.PI / 180;
     } else body.rotation = 0;
     body.hover += ((body.hovered && world.amount < RENDER.hoverFocus ? 1 : 0) - body.hover)
       * Math.min(1, dt * RENDER.hoverSmoothing);

@@ -7,7 +7,7 @@ import { updateCamera } from './camera.js';
 import { createStars, renderStars } from './render/stars.js';
 import { createBeltImage, renderBelt } from './render/belt.js';
 import { createBodies, renderBodies } from './render/bodies.js';
-import { createPanels, renderPanels } from './ui/panels.js';
+import { createPanels, measurePanels, renderPanels } from './ui/panels.js';
 import { createHotspots, fillCard, closeCard, showCard, updateHotspots } from './ui/hotspots.js';
 import { createHud, updateHud } from './ui/hud.js';
 import { fillPlanetLabel, updateLabels } from './ui/labels.js';
@@ -27,7 +27,7 @@ const state = {
   comet: { trail: [], head: COMET.head },
   canvas: { background, effects, backgroundContext: background.getContext('2d'), effectsContext: effects.getContext('2d') },
   beltImage: createBeltImage(), card: document.getElementById('card'), openHotspot: null,
-  hoverPlanet: null, hoverAsteroid: null, time: performance.now(),
+  hoverPlanet: null, hoverAsteroid: null, time: performance.now(), sceneTime: performance.now(),
 };
 createBodies(state, createHotspots);
 createPanels(state);
@@ -44,6 +44,7 @@ function applyMotionMode() {
     for (const overlay of state.overlays) {
       overlay.el.removeAttribute('style');
       overlay.written = {}; overlay.scrolled = undefined;
+      overlay.content?.style.removeProperty('transform');
       if (overlay.body) overlay.el.style.setProperty('--accent', overlay.body.accent);
       overlay.el.inert = false;
     }
@@ -60,8 +61,14 @@ function resize() {
     readScroll(state);
     return;
   }
-  const dpr = Math.min(CAMERA.dprCap, devicePixelRatio || 1);
-  state.viewport = { width: innerWidth, height: innerHeight, mobile: innerWidth < CAMERA.mobileBreakpoint, dpr };
+  const mobile = innerWidth < CAMERA.mobileBreakpoint;
+  const dpr = Math.min(mobile ? CAMERA.mobileDprCap : CAMERA.dprCap, devicePixelRatio || 1);
+  state.viewport = { width: innerWidth, height: innerHeight, mobile, dpr };
+  state.backgroundHeld = false;
+  for (const overlay of state.overlays) {
+    overlay.range = null;
+    if (mobile && !old.mobile && overlay.content) overlay.el.scrollTop = 0;
+  }
   for (const canvas of [background, effects]) {
     canvas.width = Math.round(innerWidth * dpr); canvas.height = Math.round(innerHeight * dpr);
   }
@@ -122,9 +129,22 @@ function frame(time, dt) {
   if (!state.reducedMotion) updateScroll(dt, state);
   // Reduced motion shows an unchanging galaxy behind the normal document flow.
   state.values = valuesAt(state.timeline, state.reducedMotion ? state.timeline.gaps[0].anchor : state.scroll.progress);
+  // Keep the mobile scene still during fully visible reading holds. Camera
+  // transitions keep animating, and the copy continues to follow the document.
+  // Planet holds use focus: pixel-rounded deep links can leave panel opacity
+  // slightly below 1 even though the planet has already fully arrived.
+  state.mobileReading = !state.reducedMotion && state.viewport.mobile && !state.finePointer
+    && ((state.values.prolog === 1 && state.values.prologCamera === 1)
+      || state.values.stations.some(station => station.focus === 1));
+  if (!state.mobileReading) state.sceneTime += dt * 1000;
+  measurePanels(state);
   updateWorld(dt, state);
   updateCamera(state);
-  renderStars(state); renderBelt(state); renderBodies(state);
+  if (!state.mobileReading || !state.backgroundHeld) {
+    renderStars(state); renderBelt(state);
+  }
+  state.backgroundHeld = state.mobileReading;
+  renderBodies(state);
   renderPanels(state); updateHud(state); updateLabels(state); updateHotspots(state); renderComet(dt, state);
 }
 let previousTime = performance.now();
@@ -133,12 +153,16 @@ function loop(time) {
   frameId = null;
   const dt = Math.min(SCROLL.maxDt, (time - previousTime) / 1000); previousTime = time;
   frame(time, dt);
-  if (!state.reducedMotion) frameId = requestAnimationFrame(loop);
+  if (!state.reducedMotion && !document.hidden) frameId = requestAnimationFrame(loop);
 }
 function startLoop() {
-  if (frameId !== null || state.reducedMotion) return;
+  if (frameId !== null || state.reducedMotion || document.hidden) return;
   previousTime = performance.now(); frameId = requestAnimationFrame(loop);
 }
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden && frameId !== null) { cancelAnimationFrame(frameId); frameId = null; }
+  else startLoop();
+});
 reducedMotion.addEventListener('change', () => {
   if (frameId !== null) { cancelAnimationFrame(frameId); frameId = null; }
   applyMotionMode(); resize();
@@ -152,7 +176,10 @@ reducedMotion.addEventListener('change', () => {
   }
   startLoop();
 });
-state.beltImage.onload = () => { if (state.reducedMotion) frame(performance.now(), 0); };
+state.beltImage.onload = () => {
+  state.backgroundHeld = false;
+  if (state.reducedMotion) frame(performance.now(), 0);
+};
 applyLanguage(); applyMotionMode(); resize();
 const initial = location.hash.slice(1);
 if (state.timeline.anchors[initial] != null) {

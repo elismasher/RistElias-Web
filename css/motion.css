@@ -2,10 +2,13 @@
 @media (max-width:759px){
   .hud{display:none}
   .prolog{left:16px;right:16px;width:auto;padding:22px 22px;border-radius:24px;top:auto;bottom:calc(30px + env(safe-area-inset-bottom,0px));transform:none}
-  body.motion .prolog{bottom:calc(60px + env(safe-area-inset-bottom,0px));max-height:calc(100% - 130px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px));overflow:hidden}
-  .panel{left:0;right:0;top:auto;bottom:0;transform:none;max-height:54vh;padding:28px 20px calc(24px + env(safe-area-inset-bottom,0px));
+  body.motion .prolog{bottom:calc(60px + env(safe-area-inset-bottom,0px));max-height:calc(100% - 130px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px));overflow:hidden;overflow:clip;
+    -webkit-backdrop-filter:none;backdrop-filter:none;background:linear-gradient(145deg,rgba(38,39,46,.97),rgba(25,26,32,.96));box-shadow:inset 0 1px 0 rgba(255,255,255,.16)}
+  .panel{left:0;right:0;top:auto;bottom:0;transform:none;max-height:54vh;padding:28px 20px calc(64px + env(safe-area-inset-bottom,0px));
     background:linear-gradient(180deg,rgba(20,21,26,0) 0,rgba(20,21,26,.92) 40px,var(--ground) 120px)}
-  body.motion .panel{overflow:hidden}
+  body.motion .panel{overflow:hidden;overflow:clip}
+  body.motion .panel,body.motion .prolog{contain:layout paint}
+  body.motion .ov-content{will-change:transform}
   .panel .title{font-size:44px}
   .scrim.l{background:linear-gradient(0deg,rgba(20,21,26,.92) 0,rgba(20,21,26,.6) 38%,rgba(20,21,26,0) 60%)}
   .scrim.r{display:none}
@@ -17,6 +20,7 @@ body.rm #fx,body.rm .label{display:none}
 body.rm .ch{display:block;min-height:auto;padding:110px clamp(20px,7vw,110px) 60px;position:relative}
 body.rm .prolog{-webkit-backdrop-filter:none;backdrop-filter:none;border:0;box-shadow:none;padding:0}
 body.rm .ov{position:relative;inset:auto;left:auto;right:auto;top:auto;bottom:auto;transform:none;width:auto;max-width:720px;max-height:none;overflow:visible;opacity:1;visibility:visible;margin:0 auto;background:none}
+body.rm .ov-content{transform:none;will-change:auto}
 body.rm .hero{min-height:80vh;padding-top:12vh}
 body.rm .hero .hint{position:static;transform:none;margin-top:40px}
 body.rm .hero .hint i{animation:none}

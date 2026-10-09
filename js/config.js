@@ -76,7 +76,7 @@ export const TIMING = {
   beltWave: { beforeRise: [14, 2], afterRise: [10, 40] },
 };
 export const CAMERA = {
-  mobileBreakpoint: 760, dprCap: 2, tilt: 0.36, tiltParallax: 0.035,
+  mobileBreakpoint: 760, dprCap: 2, mobileDprCap: 1.5, tilt: 0.36, tiltParallax: 0.035,
   fit: { desktop: { width: 1760, height: 760 }, mobile: { width: 1060, height: 800 } },
   heroZoom: 0.72, prologZoom: 0.9, heroY: 0.25, prologX: 0.1, prologMobileY: -0.16,
   parallax: { x: 22, y: 12 }, heroDim: 0.45,

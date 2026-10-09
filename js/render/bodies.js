@@ -41,8 +41,9 @@ export function renderBodies(state) {
   const half = RENDER.bodyCanvasSize / 2;
   const x = projectX(0, state), y = projectY(0, state);
   const sunScale = RENDER.sunSize * z / RENDER.bodyCanvasSize
-    * (state.reducedMotion ? 1 : 1 + RENDER.sunPulse * Math.sin(state.time * RENDER.sunFrequency));
-  state.sun.style.transform = `translate3d(${x - half}px,${y - half}px,0) scale(${sunScale})`;
+    * (state.reducedMotion ? 1 : 1 + RENDER.sunPulse * Math.sin(state.sceneTime * RENDER.sunFrequency));
+  const sunTransform = `translate3d(${x - half}px,${y - half}px,0) scale(${sunScale})`;
+  if (state.sunTransform !== sunTransform) { state.sunTransform = sunTransform; state.sun.style.transform = sunTransform; }
   const sunOpacity = dim * (1 - RENDER.sunFocusDim * E);
   if (state.sunOpacity !== sunOpacity) { state.sunOpacity = sunOpacity; state.sun.style.opacity = sunOpacity; }
   for (const body of state.world.planets) {
@@ -52,7 +53,7 @@ export function renderBodies(state) {
     const scale = body.size * body.depth * z / RENDER.bodyCanvasSize * (1 + RENDER.hoverScale * body.hover);
     let extra = '';
     if (isFocused && !state.reducedMotion) {
-      const float = Math.sin(state.time * RENDER.floatFrequency) * RENDER.focusFloat * E;
+      const float = Math.sin(state.sceneTime * RENDER.floatFrequency) * RENDER.focusFloat * E;
       extra = ` translateY(${float}px) perspective(${RENDER.perspective}px) rotateX(${-state.mouse.my * RENDER.rotateX * E}deg) rotateY(${state.mouse.mx * RENDER.rotateY * E}deg)`;
     }
     setStyle(body, body.el, 'transform', `translate3d(${x - half}px,${y - half}px,0)${extra} scale(${scale})`);

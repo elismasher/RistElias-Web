@@ -4,6 +4,7 @@ body.motion #track{height:var(--track-height,1100vh);pointer-events:none}
 body.motion .ch{display:contents}
 body.motion .ov{position:fixed;opacity:0;visibility:hidden;will-change:opacity,transform}
 .ov{z-index:10}
+.ov-content{display:flow-root}
 .ov .act{pointer-events:auto}
 body.motion .ov{pointer-events:none}
 .scrim{position:fixed;inset:0;z-index:5;pointer-events:none;opacity:0}

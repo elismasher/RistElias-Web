@@ -34,10 +34,10 @@ export function renderBelt(state) {
       const size = asteroid.size * z * (1 + BELT.depthScale * sin);
       if (x < -size || y < -size || x > vw + size || y > vh + size) continue;
       const depthAlpha = BELT.depthAlpha + (1 - BELT.depthAlpha) * (sin + 1) / 2;
-      const wave = state.values.beltWave * (0.5 + 0.5 * Math.sin(state.time * BELT.waveFrequency - asteroid.angle * BELT.waveAngle));
+      const wave = state.values.beltWave * (0.5 + 0.5 * Math.sin(state.sceneTime * BELT.waveFrequency - asteroid.angle * BELT.waveAngle));
       let glow = wave * BELT.waveGlow;
       if (asteroid.marked) {
-        glow = Math.max(glow, BELT.markedGlow + BELT.markedPulse * Math.sin(state.time * BELT.markedFrequency + asteroid.angle * BELT.markedAngle));
+        glow = Math.max(glow, BELT.markedGlow + BELT.markedPulse * Math.sin(state.sceneTime * BELT.markedFrequency + asteroid.angle * BELT.markedAngle));
         const distance = Math.hypot(mouse.x - x, mouse.y - y);
         if (mouse.inside && E < RENDER.hoverFocus && dim > BELT.hoverDim && distance < Math.max(BELT.hitRadius, size * BELT.hitSize) && !mouse.interactive) {
           state.hoverAsteroid = { x, y, size }; glow = 1;
