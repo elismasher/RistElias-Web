@@ -43,7 +43,7 @@ function applyMotionMode() {
   if (state.reducedMotion) {
     for (const overlay of state.overlays) {
       overlay.el.removeAttribute('style');
-      overlay.written = {};
+      overlay.written = {}; overlay.scrolled = undefined;
       if (overlay.body) overlay.el.style.setProperty('--accent', overlay.body.accent);
       overlay.el.inert = false;
     }
@@ -60,8 +60,8 @@ function resize() {
     readScroll(state);
     return;
   }
-  state.viewport = { width: innerWidth, height: innerHeight, mobile: innerWidth < CAMERA.mobileBreakpoint };
   const dpr = Math.min(CAMERA.dprCap, devicePixelRatio || 1);
+  state.viewport = { width: innerWidth, height: innerHeight, mobile: innerWidth < CAMERA.mobileBreakpoint, dpr };
   for (const canvas of [background, effects]) {
     canvas.width = Math.round(innerWidth * dpr); canvas.height = Math.round(innerHeight * dpr);
   }

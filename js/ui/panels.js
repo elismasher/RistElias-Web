@@ -102,9 +102,15 @@ function scrollRange(overlay) {
   return overlay.range;
 }
 function observeRange(overlay) {
-  const observer = new ResizeObserver(() => { overlay.range = null; });
+  const observer = new ResizeObserver(() => { overlay.range = null; overlay.scrolled = undefined; });
   observer.observe(overlay.el);
   for (const child of overlay.el.children) observer.observe(child);
+}
+// Assigning scrollTop forces layout, so it is only written when it changes.
+function setScroll(overlay, value) {
+  if (overlay.scrolled === value) return;
+  overlay.scrolled = value;
+  overlay.el.scrollTop = value;
 }
 let scrims = null;
 const scrimValues = [];
@@ -133,7 +139,7 @@ export function renderPanels(state) {
         const station = state.timeline.stations.find(station => station.id === body.id);
         const end = station.panel[2] ?? station.hold[1];
         const progress = ramp(state.scroll.progress, station.panel[1], end);
-        if (opacity >= UI.visibleOpacity) el.scrollTop = progress * scrollRange(overlay);
+        if (opacity >= UI.visibleOpacity) setScroll(overlay, progress * scrollRange(overlay));
       }
       setStyle(overlay, 'transform', state.viewport.mobile ? `translateY(${offset * UI.panelY}px)`
         : `translateY(-50%) translateX(${offset * UI.panelX}px)`);
@@ -142,7 +148,7 @@ export function renderPanels(state) {
       // Read the introduction during its hold, before the journey continues.
       const progress = state.viewport.mobile
         ? ramp(state.scroll.progress, state.timeline.prolog[1], state.timeline.prolog[2]) : 0;
-      if (opacity >= UI.visibleOpacity) el.scrollTop = progress * scrollRange(overlay);
+      if (opacity >= UI.visibleOpacity) setScroll(overlay, progress * scrollRange(overlay));
       setStyle(overlay, 'transform', state.viewport.mobile ? `translateY(${offset}px)` : `translateY(calc(-50% + ${offset}px))`);
       prologOpacity = opacity;
     } else if (kind === 'center') {

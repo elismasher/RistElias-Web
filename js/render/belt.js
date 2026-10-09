@@ -13,6 +13,7 @@ export function renderBelt(state) {
   const { z, tilt, dim } = state.camera;
   const opacity = (1 - E) * dim;
   const mouse = state.mouse;
+  const dpr = state.viewport.dpr;
   state.hoverAsteroid = null;
   if (opacity > RENDER.orbitThreshold) {
     for (const body of state.world.planets) {
@@ -49,10 +50,13 @@ export function renderBelt(state) {
         ctx.fillStyle = gradient; ctx.beginPath(); ctx.arc(x, y, size * BELT.glowRadius, 0, TAU); ctx.fill();
       }
       ctx.globalAlpha = opacity * Math.min(1, depthAlpha + glow * BELT.alphaGlow);
-      ctx.save(); ctx.translate(x, y); ctx.rotate(asteroid.rotation);
-      ctx.drawImage(image, -size / 2, -size / 2, size, size); ctx.restore();
-      ctx.globalAlpha = 1;
+      const cos = Math.cos(asteroid.rotation), sinR = Math.sin(asteroid.rotation);
+      ctx.setTransform(dpr * cos, dpr * sinR, -dpr * sinR, dpr * cos, dpr * x, dpr * y);
+      ctx.drawImage(image, -size / 2, -size / 2, size, size);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.globalAlpha = 1;
     }
   }
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  ctx.globalAlpha = 1;
   state.canvas.background.style.cursor = state.hoverAsteroid ? 'pointer' : '';
 }
