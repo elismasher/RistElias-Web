@@ -65,8 +65,11 @@ export default {
   "f.mapsv": "Google Maps, Apple Maps",
   "imp.link": "Impressum",
   "imp.title": "Impressum",
-  "imp.body": "Angaben gemäß § 5 ECG. Inhaltlich verantwortlich: Elias Rist.",
-  "imp.todo": "Adresse und E-Mail folgen",
+  "imp.body": "Angaben gemäß § 5 ECG und § 25 MedienG. Inhaltlich verantwortlich: Elias Rist.",
+  "imp.country": "Österreich",
+  "imp.email": "E-Mail",
+  "imp.activity": "Tätigkeit: Softwareentwicklung (Einzelperson).",
+  "imp.media": "Medieninhaber und Herausgeber: Elias Rist. Grundlegende Richtung: Vorstellung eigener Software-Projekte.",
   "imp.close": "Schließen",
   "f.widgets": "Widgets"
 };

@@ -23,4 +23,5 @@
 .imprint::backdrop{background:rgba(0,0,0,.6)}
 .imprint h2{margin:0 0 var(--space-sm);font-size:20px}
 .imprint p{margin:0 0 var(--space-sm);color:var(--muted)}
+.imprint a{color:var(--text)}
 .imprint-close{border:1px solid var(--faint);background:transparent;color:var(--text);border-radius:999px;padding:6px 16px;min-height:34px}

@@ -65,8 +65,11 @@ export default {
   "f.mapsv": "Google Maps, Apple Maps",
   "imp.link": "Imprint",
   "imp.title": "Imprint",
-  "imp.body": "Information pursuant to § 5 ECG. Responsible for content: Elias Rist.",
-  "imp.todo": "Address and email to follow",
+  "imp.body": "Information pursuant to § 5 ECG and § 25 MedienG (Austria). Responsible for content: Elias Rist.",
+  "imp.country": "Austria",
+  "imp.email": "Email",
+  "imp.activity": "Activity: software development (individual).",
+  "imp.media": "Media owner and publisher: Elias Rist. Basic orientation: presentation of own software projects.",
   "imp.close": "Close",
   "f.widgets": "Widgets"
 };
